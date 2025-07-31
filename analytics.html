@@ -406,27 +406,39 @@
             text-transform: uppercase;
         }
 
-        /* Page Header */
-        .page-header {
+        /* Intelligence Hub Card */
+        .intelligence-hub {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .hub-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .page-header-left {
+        .hub-info {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        .page-icon {
+        .hub-icon {
             font-size: 48px;
             filter: drop-shadow(0 0 20px var(--secondary));
         }
 
-        .page-info h1 {
-            font-size: 32px;
+        .hub-details h2 {
+            font-size: 24px;
             font-weight: bold;
             background: var(--gradient-1);
             -webkit-background-clip: text;
@@ -435,17 +447,17 @@
             margin-bottom: 8px;
         }
 
-        .page-subtitle {
+        .hub-subtitle {
             color: var(--text-secondary);
-            font-size: 16px;
+            font-size: 14px;
         }
 
-        .page-actions {
+        .hub-actions {
             display: flex;
             gap: 15px;
         }
 
-        .page-btn {
+        .hub-btn {
             background: var(--gradient-1);
             border: none;
             border-radius: 8px;
@@ -456,17 +468,65 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-size: 14px;
         }
 
-        .page-btn:hover {
+        .hub-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
         }
 
-        .page-btn.secondary {
+        .hub-btn.secondary {
             background: transparent;
             border: 2px solid var(--border);
             color: var(--primary);
+        }
+
+        .hub-btn.secondary:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary);
+        }
+
+        /* Feature Overview Cards */
+        .feature-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(0, 204, 255, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
+            border: 1px solid rgba(0, 204, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 204, 255, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
 
         /* Main Content Grid */
@@ -1202,6 +1262,10 @@
             .compliance-overview {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .feature-overview {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
         }
 
         @media (max-width: 768px) {
@@ -1240,14 +1304,18 @@
                 text-align: center;
             }
 
-            .page-header {
+            .hub-header {
                 flex-direction: column;
                 gap: 20px;
             }
             
-            .page-actions {
+            .hub-actions {
                 width: 100%;
                 justify-content: center;
+            }
+
+            .feature-overview {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1401,18 +1469,44 @@
             </div>
         </div>
 
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="page-header-left">
-                <div class="page-icon">📊</div>
-                <div class="page-info">
-                    <h1>Analytics & Intelligence</h1>
-                    <p class="page-subtitle">AI-Powered Insights • Predictive Analytics • Compliance Monitoring</p>
+        <!-- Intelligence Hub Card -->
+        <div class="intelligence-hub">
+            <div class="hub-header">
+                <div class="hub-info">
+                    <div class="hub-icon">📊</div>
+                    <div class="hub-details">
+                        <h2>Analytics & Intelligence</h2>
+                        <p class="hub-subtitle">AI-Powered Insights • Predictive Analytics • Compliance Monitoring</p>
+                    </div>
+                </div>
+                <div class="hub-actions">
+                    <button class="hub-btn" onclick="generateFullReport()">Generate Report</button>
+                    <button class="hub-btn secondary" onclick="exportAnalytics()">Export Data</button>
                 </div>
             </div>
-            <div class="page-actions">
-                <button class="page-btn" onclick="generateFullReport()">Generate Report</button>
-                <button class="page-btn secondary" onclick="exportAnalytics()">Export Data</button>
+
+            <!-- Feature Overview -->
+            <div class="feature-overview">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-title">Predictive Analytics</div>
+                    <div class="feature-description">ML models predicting threats 2.3s in advance with 99.8% accuracy</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <div class="feature-title">Compliance Monitoring</div>
+                    <div class="feature-description">Real-time compliance tracking across SOC2, ISO27001, PCI DSS, and HIPAA</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-title">Behavioral Analysis</div>
+                    <div class="feature-description">Advanced pattern recognition detecting anomalies and insider threats</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <div class="feature-title">Performance Metrics</div>
+                    <div class="feature-description">Real-time system metrics and security KPIs with automated reporting</div>
+                </div>
             </div>
         </div>
 
