@@ -70,64 +70,213 @@
             margin-bottom: 30px;
             backdrop-filter: blur(15px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
-        .page-icon {
-            font-size: 48px;
-            filter: drop-shadow(0 0 20px var(--primary));
+        /* Logo */
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .page-info h1 {
-            font-size: 32px;
+        .logo-shield {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-shield);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: relative;
+            animation: shieldPulse 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes shieldPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-eye {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--bg-darker);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-iris {
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        }
+
+        .rotating-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--primary);
+        }
+
+        .dot:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .dot:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+        .dot:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 28px;
             font-weight: bold;
+            letter-spacing: 2px;
             background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 8px;
         }
 
-        .page-subtitle {
+        .brand-tagline {
+            font-size: 14px;
             color: var(--text-secondary);
-            font-size: 16px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .header-btn {
-            background: var(--gradient-1);
-            border: none;
-            border-radius: 8px;
-            padding: 12px 24px;
-            color: var(--bg-darker);
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .header-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
         }
 
-        .header-btn.secondary {
-            background: transparent;
-            border: 2px solid var(--border);
+        /* Encryption Status Badges */
+        .encryption-badges {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .encryption-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .encryption-badge.classical {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary);
             color: var(--primary);
+        }
+
+        .encryption-badge.quantum {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        .status-light.active {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .status-light.inactive {
+            background: var(--danger);
+            box-shadow: 0 0 10px var(--danger);
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .agent-status:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .agent-icon {
+            font-size: 20px;
+        }
+
+        .agent-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .agent-status-text {
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
         .logout-btn {
@@ -189,6 +338,134 @@
             background: var(--gradient-1);
             color: var(--bg-darker);
             font-weight: bold;
+        }
+
+        /* Sub-Agent Status Banner */
+        .sub-agent-status {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            backdrop-filter: blur(15px);
+        }
+
+        .sub-agent-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sub-agent-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-encryption);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .sub-agent-details h3 {
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .sub-agent-details p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .sub-agent-metrics {
+            display: flex;
+            gap: 30px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .page-icon {
+            font-size: 48px;
+            filter: drop-shadow(0 0 20px var(--primary));
+        }
+
+        .page-info h1 {
+            font-size: 32px;
+            font-weight: bold;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .page-btn {
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: var(--bg-darker);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .page-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .page-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--primary);
         }
 
         /* Main Content Grid */
@@ -818,6 +1095,89 @@
             display: block;
         }
 
+        /* Agent Shutdown Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 10px;
+        }
+
+        .modal-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-btn-primary {
+            background: var(--gradient-1);
+            color: var(--bg-darker);
+        }
+
+        .modal-btn-secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 1200px) {
             .content-grid {
@@ -838,13 +1198,12 @@
         }
 
         @media (max-width: 768px) {
-            .header {
+            .header-content {
                 flex-direction: column;
-                gap: 20px;
             }
             
-            .header-actions {
-                width: 100%;
+            .encryption-badges {
+                order: -1;
                 justify-content: center;
             }
             
@@ -858,6 +1217,26 @@
                 height: calc(100vh - 120px);
                 right: -20px;
                 bottom: 80px;
+            }
+
+            .sub-agent-metrics {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .sub-agent-status {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .page-actions {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -903,17 +1282,46 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="header-left">
-                <div class="page-icon">🔐</div>
-                <div class="page-info">
-                    <h1>Encryption Management</h1>
-                    <p class="page-subtitle">Hybrid-Resistant Security • Classical + Post-Quantum Algorithms</p>
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-container">
+                        <div class="rotating-dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <div class="logo-shield">
+                            <div class="logo-eye">
+                                <div class="logo-iris"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="brand-info">
+                        <h1 class="brand-name">AI SENTINEL-X</h1>
+                        <p class="brand-tagline">Autonomous Cyber Defense</p>
+                    </div>
                 </div>
-            </div>
-            <div class="header-actions">
-                <button class="header-btn" onclick="deployAllModules()">Deploy All</button>
-                <button class="header-btn secondary" onclick="rotateMasterKeys()">Rotate Keys</button>
-                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                <div class="header-right">
+                    <!-- Separate Encryption Badges -->
+                    <div class="encryption-badges">
+                        <div class="encryption-badge classical">
+                            <div class="status-light active" id="classicalStatus"></div>
+                            <span>CLASSICAL</span>
+                        </div>
+                        <div class="encryption-badge quantum">
+                            <div class="status-light active" id="quantumStatus"></div>
+                            <span>HYBRID</span>
+                        </div>
+                    </div>
+                    <div class="agent-status" onclick="showAgentShutdownModal()">
+                        <span class="agent-icon">🤖</span>
+                        <div class="agent-info">
+                            <span class="agent-title">AI Agent Active</span>
+                            <span class="agent-status-text" id="agentModeText">Autonomous with Manual Override</span>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                </div>
             </div>
         </header>
 
@@ -952,6 +1360,50 @@
                 <span>Settings</span>
             </a>
         </nav>
+
+        <!-- Sub-Agent Status Banner -->
+        <div class="sub-agent-status">
+            <div class="sub-agent-info">
+                <div class="sub-agent-icon">🔐</div>
+                <div class="sub-agent-details">
+                    <h3>EncryptionManager Sub-Agent</h3>
+                    <p>Hybrid-resistant encryption • Classical + Post-quantum • Coordinating with sub-agents • Reports to Main Agent</p>
+                </div>
+            </div>
+            <div class="sub-agent-metrics">
+                <div class="metric">
+                    <div class="metric-value" id="cryptoOps">2.1M</div>
+                    <div class="metric-label">Crypto Ops/Sec</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="deploymentsActive">3/4</div>
+                    <div class="metric-label">Deployments</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="certificatesValid">12</div>
+                    <div class="metric-label">Certificates</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="keyRotations">47</div>
+                    <div class="metric-label">Rotations/Day</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <div class="page-icon">🔐</div>
+                <div class="page-info">
+                    <h1>Encryption Management</h1>
+                    <p class="page-subtitle">Hybrid-Resistant Security • Classical + Post-Quantum Algorithms</p>
+                </div>
+            </div>
+            <div class="page-actions">
+                <button class="page-btn" onclick="deployAllModules()">Deploy All</button>
+                <button class="page-btn secondary" onclick="rotateMasterKeys()">Rotate Keys</button>
+            </div>
+        </div>
 
         <!-- Main Encryption Manager -->
         <div class="encryption-manager">
@@ -1045,6 +1497,22 @@
         </div>
     </div>
 
+    <!-- Agent Shutdown Modal -->
+    <div class="modal-overlay" id="agentShutdownModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">⚠️ Agent Control Toggle</h2>
+            </div>
+            <div class="modal-content">
+                Toggle autonomous mode? When paused, manual control remains available through the AI chat bot CLI. System will fallback to local control mode if external APIs are offline.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Toggle Agent Mode</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- AI Chat Widget -->
     <div class="ai-chat-widget">
         <div class="ai-chat-window" id="aiChatWindow">
@@ -1091,6 +1559,11 @@
             populateDeploymentModules();
             populateCertificates();
             initializeEncryptionChat();
+            
+            // Start real-time updates
+            setInterval(() => {
+                updateMetrics();
+            }, 5000);
         }
 
         function populateDeploymentModules() {
@@ -1193,6 +1666,21 @@
             // Add initial encryption-specific welcome message
             if (SentinelState.chatOpen) {
                 sentinelChat?.addMessage('EncryptionManager: All encryption layers operational. 3/4 deployment modules active. 2 certificates require attention.', false);
+            }
+        }
+
+        function updateMetrics() {
+            // Update metrics occasionally
+            if (Math.random() > 0.8) {
+                const cryptoOps = document.getElementById('cryptoOps');
+                const ops = 2.0 + Math.random() * 0.3;
+                cryptoOps.textContent = ops.toFixed(1) + 'M';
+                
+                const rotations = document.getElementById('keyRotations');
+                if (Math.random() > 0.9) {
+                    const current = parseInt(rotations.textContent);
+                    rotations.textContent = current + 1;
+                }
             }
         }
 
@@ -1331,6 +1819,56 @@
                     sentinelChat?.addMessage('EncryptionManager: Master key rotation initiated. Generating new Kyber-1024 + AES-256 key pairs. All sub-systems will be updated automatically with zero service interruption.', false);
                 }, 800);
             }, 300);
+        }
+
+        // Modal functions (using shared.js)
+        function showAgentShutdownModal() {
+            SentinelEventHandlers.showAgentShutdownModal();
+        }
+
+        function closeModal() {
+            SentinelEventHandlers.closeModal();
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                SentinelEventHandlers.closeModal();
+            }
+        }
+
+        function confirmAgentShutdown() {
+            SentinelEventHandlers.confirmAgentShutdown();
+        }
+
+        // Chat functionality (using shared.js functions)
+        function toggleChat() {
+            if (window.sentinelChat) {
+                sentinelChat.toggle();
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('aiChatInput');
+            const message = input.value.trim();
+            
+            if (message && window.sentinelChat) {
+                sentinelChat.sendMessage(message);
+                input.value = '';
+            }
+        }
+
+        // Logout handler (using shared.js)
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout? The AI agent will continue protecting your systems autonomously.')) {
+                localStorage.removeItem('sentinel_auth');
+                window.location.href = 'index.html';
+            }
         }
     </script>
 </body>
