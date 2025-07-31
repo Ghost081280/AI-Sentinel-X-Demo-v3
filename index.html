@@ -711,7 +711,7 @@
         <div class="agent-status-badge">
             <div class="agent-status-content">
                 <div class="agent-status-title">🤖 AI AGENT READY</div>
-                <div>Main Agent + Sub-Agents • Hybrid-Resistant Encryption • Manual Override via AI Chat Bot</div>
+                <div>Main Agent + 9 Sub-Agents • Hybrid-Resistant Encryption • Manual Override via AI Chat Bot</div>
             </div>
         </div>
 
@@ -745,7 +745,7 @@
                     required
                     autocomplete="off"
                 >
-                <div class="input-description">Enables NetworkScanner sub-agent for external threat intelligence and device discovery</div>
+                <div class="input-description">Enables NetworkMapper sub-agent for external threat intelligence and device discovery</div>
             </div>
 
             <div class="input-group">
@@ -765,7 +765,7 @@
             </div>
 
             <button type="submit" class="login-btn" id="loginBtn">
-                ACTIVATE AI AGENT
+                INITIALIZE SYSTEM
             </button>
 
             <div class="status-message" id="statusMessage"></div>
@@ -891,35 +891,35 @@
             // Validate inputs
             if (!openaiKey || !shodanKey || !sentinelKey) {
                 statusMessage.className = 'status-message error';
-                statusMessage.textContent = '⚠️ All API keys required for agent initialization';
+                statusMessage.textContent = '⚠️ All API keys required for system initialization';
                 return;
             }
             
             // Show loading state
             loginBtn.disabled = true;
-            loginBtn.innerHTML = '<span class="loading"></span>INITIALIZING AGENT...';
-            statusMessage.textContent = '🔐 Establishing hybrid-resistant secure connection...';
+            loginBtn.innerHTML = '<span class="loading"></span>INITIALIZING...';
+            statusMessage.textContent = '🔐 Establishing secure connection...';
             
             // Multi-stage authentication simulation
             setTimeout(() => {
                 statusMessage.textContent = '🔍 Validating API credentials...';
                 
                 setTimeout(() => {
-                    statusMessage.textContent = '🛡️ Activating hybrid encryption (Classical + Post-Quantum)...';
+                    statusMessage.textContent = '🌐 Performing internal network scan...';
                     
                     setTimeout(() => {
-                        statusMessage.textContent = '🤖 Deploying Main Agent and specialized sub-agents...';
+                        statusMessage.textContent = '📡 Discovering network topology and devices...';
                         
                         setTimeout(() => {
-                            statusMessage.textContent = '🔗 Synchronizing sub-agent network with secure protocols...';
+                            statusMessage.textContent = '🛡️ Analyzing security posture...';
                             
                             setTimeout(() => {
-                                statusMessage.textContent = '🌐 Initializing network discovery and device scanning...';
+                                statusMessage.textContent = '🔑 Generating hybrid encryption keys...';
                                 
                                 setTimeout(() => {
                                     // Check demo credentials
                                     if (openaiKey === 'demo' && shodanKey === 'demo' && sentinelKey === 'demo') {
-                                        statusMessage.textContent = '⚡ Activating autonomous defense systems...';
+                                        statusMessage.textContent = '🤖 Deploying AI agents to discovered devices...';
                                         
                                         setTimeout(() => {
                                             // Store credentials
@@ -931,7 +931,7 @@
                                             }));
                                             
                                             statusMessage.className = 'status-message success';
-                                            statusMessage.textContent = '✅ AI SENTINEL-X ONLINE - ALL AGENTS DEPLOYED WITH HYBRID ENCRYPTION';
+                                            statusMessage.textContent = '✅ NETWORK SCAN COMPLETE - AI SENTINEL-X ACTIVATED';
                                             
                                             // Redirect to dashboard
                                             setTimeout(() => {
@@ -942,7 +942,7 @@
                                         statusMessage.className = 'status-message error';
                                         statusMessage.textContent = '❌ Invalid API credentials. Please verify your keys.';
                                         loginBtn.disabled = false;
-                                        loginBtn.innerHTML = 'ACTIVATE AI AGENT';
+                                        loginBtn.innerHTML = 'INITIALIZE SYSTEM';
                                     }
                                 }, 800);
                             }, 800);
