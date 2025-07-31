@@ -1649,10 +1649,202 @@
         <button class="ai-chat-toggle" onclick="toggleChat()">📊</button>
     </div>
 
-    <script src="shared.js"></script>
     <script>
-        // Analytics page initialization
+        // Mock data for demonstration
+        const ComplianceConfigs = {
+            frameworks: [
+                {
+                    id: 'soc2',
+                    name: 'SOC 2',
+                    status: 'compliant',
+                    coverage: '96%',
+                    lastAudit: '2024-09-15',
+                    nextAudit: '2025-03-15',
+                    issuesFound: 0
+                },
+                {
+                    id: 'iso27001',
+                    name: 'ISO 27001',
+                    status: 'compliant',
+                    coverage: '94%',
+                    lastAudit: '2024-08-20',
+                    nextAudit: '2025-08-20',
+                    issuesFound: 2
+                },
+                {
+                    id: 'pcidss',
+                    name: 'PCI DSS',
+                    status: 'pending',
+                    coverage: '85%',
+                    lastAudit: '2024-06-10',
+                    nextAudit: '2025-01-10',
+                    issuesFound: 5
+                },
+                {
+                    id: 'hipaa',
+                    name: 'HIPAA',
+                    status: 'compliant',
+                    coverage: '98%',
+                    lastAudit: '2024-10-01',
+                    nextAudit: '2025-04-01',
+                    issuesFound: 1
+                }
+            ]
+        };
+
+        const SentinelState = {
+            agentMode: 'autonomous',
+            chatOpen: false
+        };
+
+        const SentinelUtils = {
+            formatDateFromISO: function(isoString) {
+                const date = new Date(isoString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            },
+            
+            getDaysUntilExpiry: function(expiryDate) {
+                const today = new Date();
+                const expiry = new Date(expiryDate);
+                const diffTime = expiry - today;
+                return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            },
+            
+            getStatusClass: function(status) {
+                const statusMap = {
+                    'active': 'status-active',
+                    'valid': 'status-valid',
+                    'expiring': 'status-expiring',
+                    'expired': 'status-expired',
+                    'compliant': 'status-compliant',
+                    'pending': 'status-pending',
+                    'deployed': 'status-deployed'
+                };
+                return statusMap[status] || 'status-unknown';
+            }
+        };
+
+        const SentinelEventHandlers = {
+            showAgentShutdownModal: function() {
+                document.getElementById('agentShutdownModal').style.display = 'flex';
+            },
+            
+            closeModal: function() {
+                document.getElementById('agentShutdownModal').style.display = 'none';
+            },
+            
+            confirmAgentShutdown: function() {
+                const newMode = SentinelState.agentMode === 'autonomous' ? 'manual' : 'autonomous';
+                SentinelState.agentMode = newMode;
+                
+                const agentModeText = document.getElementById('agentModeText');
+                const cliIndicator = document.getElementById('cliModeIndicator');
+                
+                if (newMode === 'manual') {
+                    agentModeText.textContent = 'Manual Control - CLI Available';
+                    if (cliIndicator) cliIndicator.classList.add('active');
+                } else {
+                    agentModeText.textContent = 'Autonomous with Manual Override';
+                    if (cliIndicator) cliIndicator.classList.remove('active');
+                }
+                
+                this.closeModal();
+                
+                if (window.sentinelChat && !SentinelState.chatOpen) {
+                    sentinelChat.toggle();
+                }
+                
+                setTimeout(() => {
+                    if (window.sentinelChat) {
+                        sentinelChat.addMessage(`System: Agent mode switched to ${newMode}. ${newMode === 'manual' ? 'CLI control available.' : 'Autonomous operations resumed.'}`, false, 'system');
+                    }
+                }, 500);
+            }
+        };
+
+        // Simple chat implementation
+        class SentinelChat {
+            constructor() {
+                this.isOpen = false;
+                this.messages = [];
+                this.init();
+            }
+            
+            init() {
+                this.chatWindow = document.getElementById('aiChatWindow');
+                this.messagesContainer = document.getElementById('aiChatMessages');
+                this.inputField = document.getElementById('aiChatInput');
+                
+                // Add initial message
+                this.addMessage('AnalyticsEngine: Processing 2.4M metrics with 99.8% accuracy. ComplianceMonitor shows 3/4 frameworks compliant. LogAgent securing all audit trails with hybrid-resistant signatures.', false);
+            }
+            
+            toggle() {
+                this.isOpen = !this.isOpen;
+                SentinelState.chatOpen = this.isOpen;
+                
+                if (this.isOpen) {
+                    this.chatWindow.classList.add('active');
+                } else {
+                    this.chatWindow.classList.remove('active');
+                }
+            }
+            
+            addMessage(text, isUser = true, type = 'normal') {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'ai-message';
+                
+                const bubbleDiv = document.createElement('div');
+                bubbleDiv.className = `ai-message-bubble ${isUser ? 'user' : (type === 'system' ? 'system' : '')}`;
+                bubbleDiv.textContent = text;
+                
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'ai-message-time';
+                timeDiv.textContent = new Date().toLocaleTimeString();
+                
+                messageDiv.appendChild(bubbleDiv);
+                messageDiv.appendChild(timeDiv);
+                
+                this.messagesContainer.appendChild(messageDiv);
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                
+                this.messages.push({ text, isUser, type, timestamp: new Date() });
+            }
+            
+            sendMessage(text) {
+                if (!text.trim()) return;
+                
+                this.addMessage(text, true);
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    this.generateResponse(text);
+                }, 800);
+            }
+            
+            generateResponse(userMessage) {
+                const responses = [
+                    'AnalyticsEngine: Command processed. Updating metrics and generating insights.',
+                    'ComplianceMonitor: Compliance check initiated. Scanning all frameworks.',
+                    'LogAgent: Audit trail secured with hybrid-resistant signatures.',
+                    'AnalyticsEngine: Predictive model updated with latest threat patterns.',
+                    'System: All analytics agents operating within normal parameters.'
+                ];
+                
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                this.addMessage(response, false);
+            }
+        }
+
+        // Initialize chat
+        let sentinelChat;
         document.addEventListener('DOMContentLoaded', () => {
+            sentinelChat = new SentinelChat();
+            window.sentinelChat = sentinelChat;
             initializeAnalyticsPage();
         });
 
