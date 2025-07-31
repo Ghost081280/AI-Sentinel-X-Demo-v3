@@ -412,12 +412,19 @@
             text-transform: uppercase;
         }
 
-        /* Main Grid */
+        /* Main Grid - Updated to 2 columns */
         .ai-engine-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 25px;
             margin-bottom: 30px;
+        }
+
+        /* Left Column - Stacked Performance and Coordination */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
         /* System Performance Monitor */
@@ -429,6 +436,7 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
+            flex: 1;
         }
 
         .panel-header {
@@ -538,6 +546,7 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
+            flex: 1;
         }
 
         .coordination-activities {
@@ -622,7 +631,7 @@
             background: var(--success);
         }
 
-        /* Sub-Agents Control Panel */
+        /* Sub-Agents Control Panel - Full height */
         .subagents-panel {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -631,6 +640,7 @@
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
+            height: fit-content;
         }
 
         .subagents-list {
@@ -1131,6 +1141,14 @@
             .ai-engine-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .left-column {
+                order: 2;
+            }
+            
+            .subagents-panel {
+                order: 1;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1311,25 +1329,28 @@
             </div>
         </div>
 
-        <!-- Main Grid -->
+        <!-- Main Grid - Updated to 2 columns -->
         <div class="ai-engine-grid">
-            <!-- System Performance Monitor -->
-            <div class="performance-panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">System Performance</h2>
+            <!-- Left Column - Stacked Performance and Coordination -->
+            <div class="left-column">
+                <!-- System Performance Monitor -->
+                <div class="performance-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">System Performance</h2>
+                    </div>
+                    <div class="performance-metrics" id="performanceMetrics">
+                        <!-- Performance metrics will be populated by JavaScript -->
+                    </div>
                 </div>
-                <div class="performance-metrics" id="performanceMetrics">
-                    <!-- Performance metrics will be populated by JavaScript -->
-                </div>
-            </div>
 
-            <!-- Agent Coordination Hub -->
-            <div class="coordination-panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Agent Coordination</h2>
-                </div>
-                <div class="coordination-activities" id="coordinationActivities">
-                    <!-- Coordination activities will be populated by JavaScript -->
+                <!-- Agent Coordination Hub -->
+                <div class="coordination-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">Agent Coordination</h2>
+                    </div>
+                    <div class="coordination-activities" id="coordinationActivities">
+                        <!-- Coordination activities will be populated by JavaScript -->
+                    </div>
                 </div>
             </div>
 
@@ -1900,10 +1921,6 @@
             const decisions = document.getElementById('decisionsPerMin');
             const current = parseFloat(decisions.textContent.replace('K', ''));
             decisions.textContent = (current + 0.1).toFixed(1) + 'K';
-            
-            // Update neural stats
-            const nodes = document.getElementById('neuralNodes');
-            nodes.textContent = (parseInt(nodes.textContent.replace(',', '')) + Math.floor(Math.random() * 5)).toLocaleString();
             
             // Update training progress
             const progressElements = [
