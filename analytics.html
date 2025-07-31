@@ -242,6 +242,7 @@
             50% { opacity: 0.7; transform: scale(1.2); }
         }
 
+        /* FIXED: Agent Status Button - Match exactly with other pages */
         .agent-status {
             display: flex;
             align-items: center;
@@ -252,6 +253,9 @@
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 14px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .agent-status:hover {
@@ -262,22 +266,26 @@
 
         .agent-icon {
             font-size: 20px;
+            flex-shrink: 0;
         }
 
         .agent-info {
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
         .agent-title {
             font-weight: bold;
             font-size: 14px;
             color: var(--primary);
+            line-height: 1.2;
         }
 
         .agent-status-text {
             font-size: 12px;
             color: var(--text-secondary);
+            line-height: 1.2;
         }
 
         .logout-btn {
