@@ -28,6 +28,7 @@
             --gradient-shield: linear-gradient(135deg, #1a4d2e 0%, #00ff88 50%, #00ccff 100%);
             --gradient-hologram: linear-gradient(45deg, #00ff88, #00ccff, #7c3aed, #ff00ff);
             --gradient-quantum: linear-gradient(135deg, #7c3aed 0%, #ff00ff 50%, #00ccff 100%);
+            --gradient-hybrid: linear-gradient(135deg, #00ff88 0%, #7c3aed 50%, #00ccff 100%);
         }
 
         body {
@@ -710,7 +711,7 @@
         <div class="agent-status-badge">
             <div class="agent-status-content">
                 <div class="agent-status-title">🤖 AI AGENT READY</div>
-                <div>Autonomous with Manual Control via AI Chat Bot</div>
+                <div>Main Agent + Sub-Agents • Hybrid-Resistant Encryption • Manual Override via AI Chat Bot</div>
             </div>
         </div>
 
@@ -728,7 +729,7 @@
                     required
                     autocomplete="off"
                 >
-                <div class="input-description">Powers the Main AI Agent for threat analysis and autonomous decision-making</div>
+                <div class="input-description">Powers the Main AI Agent for autonomous threat analysis and sub-agent orchestration</div>
             </div>
 
             <div class="input-group">
@@ -744,7 +745,7 @@
                     required
                     autocomplete="off"
                 >
-                <div class="input-description">Enables NetworkScanner sub-agent for external threat intelligence</div>
+                <div class="input-description">Enables NetworkScanner sub-agent for external threat intelligence and device discovery</div>
             </div>
 
             <div class="input-group">
@@ -760,7 +761,7 @@
                     required
                     autocomplete="off"
                 >
-                <div class="input-description">Authenticates Main Agent and enables sub-agent orchestration</div>
+                <div class="input-description">Authenticates Main Agent and enables hybrid-resistant encryption across all sub-agent communications</div>
             </div>
 
             <button type="submit" class="login-btn" id="loginBtn">
@@ -771,7 +772,7 @@
         </form>
 
         <div class="demo-info">
-            <p>🚀 Experience autonomous cyber defense with modular AI sub-agents</p>
+            <p>🚀 Experience AI Sentinel-X V2.2 Hybrid: autonomous defense with specialized sub-agents and hybrid-resistant encryption</p>
             <div class="demo-credentials">
                 Demo credentials: demo / demo / demo
             </div>
@@ -890,53 +891,61 @@
             // Validate inputs
             if (!openaiKey || !shodanKey || !sentinelKey) {
                 statusMessage.className = 'status-message error';
-                statusMessage.textContent = '⚠️ All API keys are required for agent initialization';
+                statusMessage.textContent = '⚠️ All API keys required for agent initialization';
                 return;
             }
             
             // Show loading state
             loginBtn.disabled = true;
             loginBtn.innerHTML = '<span class="loading"></span>INITIALIZING AGENT...';
-            statusMessage.textContent = '🔐 Establishing secure connection...';
+            statusMessage.textContent = '🔐 Establishing hybrid-resistant secure connection...';
             
             // Multi-stage authentication simulation
             setTimeout(() => {
                 statusMessage.textContent = '🔍 Validating API credentials...';
                 
                 setTimeout(() => {
-                    statusMessage.textContent = '🛡️ Activating hybrid encryption...';
+                    statusMessage.textContent = '🛡️ Activating hybrid encryption (Classical + Post-Quantum)...';
                     
                     setTimeout(() => {
-                        statusMessage.textContent = '🤖 Deploying Main Agent and sub-agents...';
+                        statusMessage.textContent = '🤖 Deploying Main Agent and specialized sub-agents...';
                         
                         setTimeout(() => {
-                            // Check demo credentials
-                            if (openaiKey === 'demo' && shodanKey === 'demo' && sentinelKey === 'demo') {
-                                statusMessage.textContent = '⚡ Activating autonomous defense systems...';
+                            statusMessage.textContent = '🔗 Synchronizing sub-agent network with secure protocols...';
+                            
+                            setTimeout(() => {
+                                statusMessage.textContent = '🌐 Initializing network discovery and device scanning...';
                                 
                                 setTimeout(() => {
-                                    // Store credentials
-                                    localStorage.setItem('sentinel_auth', JSON.stringify({
-                                        openai: openaiKey,
-                                        shodan: shodanKey,
-                                        sentinel: sentinelKey,
-                                        timestamp: Date.now()
-                                    }));
-                                    
-                                    statusMessage.className = 'status-message success';
-                                    statusMessage.textContent = '✅ AI AGENT ONLINE - SUB-AGENTS DEPLOYED';
-                                    
-                                    // Redirect to dashboard
-                                    setTimeout(() => {
-                                        window.location.href = 'dashboard.html';
-                                    }, 1000);
+                                    // Check demo credentials
+                                    if (openaiKey === 'demo' && shodanKey === 'demo' && sentinelKey === 'demo') {
+                                        statusMessage.textContent = '⚡ Activating autonomous defense systems...';
+                                        
+                                        setTimeout(() => {
+                                            // Store credentials
+                                            localStorage.setItem('sentinel_auth', JSON.stringify({
+                                                openai: openaiKey,
+                                                shodan: shodanKey,
+                                                sentinel: sentinelKey,
+                                                timestamp: Date.now()
+                                            }));
+                                            
+                                            statusMessage.className = 'status-message success';
+                                            statusMessage.textContent = '✅ AI SENTINEL-X ONLINE - ALL AGENTS DEPLOYED WITH HYBRID ENCRYPTION';
+                                            
+                                            // Redirect to dashboard
+                                            setTimeout(() => {
+                                                window.location.href = 'dashboard.html';
+                                            }, 1500);
+                                        }, 800);
+                                    } else {
+                                        statusMessage.className = 'status-message error';
+                                        statusMessage.textContent = '❌ Invalid API credentials. Please verify your keys.';
+                                        loginBtn.disabled = false;
+                                        loginBtn.innerHTML = 'ACTIVATE AI AGENT';
+                                    }
                                 }, 800);
-                            } else {
-                                statusMessage.className = 'status-message error';
-                                statusMessage.textContent = '❌ Invalid API credentials. Please verify your keys.';
-                                loginBtn.disabled = false;
-                                loginBtn.innerHTML = 'ACTIVATE AI AGENT';
-                            }
+                            }, 800);
                         }, 800);
                     }, 800);
                 }, 800);
