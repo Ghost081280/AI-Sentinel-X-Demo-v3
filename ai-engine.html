@@ -415,13 +415,13 @@
         /* Main Grid */
         .ai-engine-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 25px;
             margin-bottom: 30px;
         }
 
-        /* Neural Network Visualization */
-        .neural-panel {
+        /* System Performance Monitor */
+        .performance-panel {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 15px;
@@ -448,61 +448,178 @@
             letter-spacing: 1px;
         }
 
-        .neural-visualization {
+        .performance-metrics {
+            display: grid;
+            gap: 15px;
             flex: 1;
-            min-height: 400px;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(124, 58, 237, 0.1) 100%);
+        }
+
+        .performance-metric {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 255, 136, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            position: relative;
-            overflow: hidden;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .performance-metric:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .metric-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+            margin-bottom: 15px;
         }
 
-        .neural-canvas {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
+        .metric-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary);
         }
 
-        .neural-overlay-info {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 15px;
-            backdrop-filter: blur(10px);
-            z-index: 10;
-        }
-
-        .neural-stats {
-            display: flex;
-            justify-content: space-around;
-            gap: 20px;
-        }
-
-        .neural-stat {
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
+        .metric-status {
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .stat-value {
-            font-size: 18px;
+        .status-optimal {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+        }
+
+        .status-warning {
+            background: rgba(255, 170, 0, 0.2);
+            color: var(--warning);
+        }
+
+        .metric-value {
+            font-size: 24px;
             font-weight: bold;
-            color: var(--primary);
-            margin-top: 5px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .metric-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .metric-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .metric-bar-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Agent Coordination Hub */
+        .coordination-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .coordination-activities {
+            display: grid;
+            gap: 12px;
+            flex: 1;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .coordination-activity {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(124, 58, 237, 0.02) 100%);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 15px;
+            transition: all 0.3s ease;
+            animation: activitySlideIn 0.5s ease;
+        }
+
+        @keyframes activitySlideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .coordination-activity:hover {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(0, 255, 136, 0.02) 100%);
+            transform: translateX(5px);
+        }
+
+        .coordination-activity.encryption {
+            border-left-color: var(--primary);
+        }
+
+        .coordination-activity.security {
+            border-left-color: var(--danger);
+        }
+
+        .coordination-activity.compliance {
+            border-left-color: var(--secondary);
+        }
+
+        .activity-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .activity-agents {
+            font-size: 10px;
+            color: var(--accent);
+            background: rgba(124, 58, 237, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: inline-block;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .activity-message {
+            font-size: 13px;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .activity-result {
+            font-size: 11px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .result-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
         }
 
         /* Sub-Agents Control Panel */
@@ -1196,29 +1313,23 @@
 
         <!-- Main Grid -->
         <div class="ai-engine-grid">
-            <!-- Neural Network Visualization -->
-            <div class="neural-panel">
+            <!-- System Performance Monitor -->
+            <div class="performance-panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Neural Network Activity</h2>
+                    <h2 class="panel-title">System Performance</h2>
                 </div>
-                <div class="neural-visualization">
-                    <canvas class="neural-canvas" id="neuralVisualizationCanvas"></canvas>
-                    <div class="neural-overlay-info">
-                        <div class="neural-stats">
-                            <div class="neural-stat">
-                                <div class="stat-label">Nodes</div>
-                                <div class="stat-value" id="neuralNodes">2,847</div>
-                            </div>
-                            <div class="neural-stat">
-                                <div class="stat-label">Connections</div>
-                                <div class="stat-value" id="neuralConnections">14.2K</div>
-                            </div>
-                            <div class="neural-stat">
-                                <div class="stat-label">Learning Rate</div>
-                                <div class="stat-value">0.001</div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="performance-metrics" id="performanceMetrics">
+                    <!-- Performance metrics will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Agent Coordination Hub -->
+            <div class="coordination-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Agent Coordination</h2>
+                </div>
+                <div class="coordination-activities" id="coordinationActivities">
+                    <!-- Coordination activities will be populated by JavaScript -->
                 </div>
             </div>
 
@@ -1488,7 +1599,7 @@
         let classicalActive = true;
         let quantumActive = true;
 
-        // Neural network visualization - both background and panel
+        // Neural network visualization - background only
         function initNeuralVisualization() {
             // Background neural canvas
             const bgCanvas = document.getElementById('neuralCanvas');
@@ -1571,87 +1682,160 @@
                 
                 animateBackground();
             }
+        }
 
-            // Panel neural visualization
-            const canvas = document.getElementById('neuralVisualizationCanvas');
-            if (!canvas) return;
-            
-            const ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            
-            const nodes = [];
-            const connections = [];
-            const nodeCount = 45;
-            
-            // Generate nodes
-            for (let i = 0; i < nodeCount; i++) {
-                nodes.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3,
-                    radius: Math.random() * 3 + 2,
-                    activity: Math.random()
-                });
-            }
-            
-            // Generate connections
-            nodes.forEach((node1, i) => {
-                nodes.slice(i + 1).forEach((node2, j) => {
-                    if (Math.random() > 0.85) {
-                        connections.push({ from: i, to: i + j + 1, strength: Math.random() });
-                    }
-                });
+        // Populate performance metrics
+        function populatePerformanceMetrics() {
+            const container = document.getElementById('performanceMetrics');
+            if (!container) return;
+
+            const metrics = [
+                {
+                    name: 'CPU Usage',
+                    value: '28%',
+                    status: 'optimal',
+                    description: 'Hybrid encryption processing load',
+                    percentage: 28
+                },
+                {
+                    name: 'Memory Usage', 
+                    value: '3.2GB',
+                    status: 'optimal',
+                    description: '9 sub-agents + neural networks',
+                    percentage: 64
+                },
+                {
+                    name: 'Threat Response',
+                    value: '0.3s',
+                    status: 'optimal', 
+                    description: 'Average detection to response time',
+                    percentage: 95
+                },
+                {
+                    name: 'Encryption Ops',
+                    value: '2.1M/s',
+                    status: 'optimal',
+                    description: 'Classical + Post-quantum operations',
+                    percentage: 85
+                },
+                {
+                    name: 'Agent Sync',
+                    value: '99.8%',
+                    status: 'optimal',
+                    description: 'Sub-agent coordination success',
+                    percentage: 99
+                },
+                {
+                    name: 'Data Processing',
+                    value: '147K/s',
+                    status: 'warning',
+                    description: 'Events analyzed per second',
+                    percentage: 78
+                }
+            ];
+
+            container.innerHTML = '';
+            metrics.forEach(metric => {
+                const div = document.createElement('div');
+                div.className = 'performance-metric';
+                div.innerHTML = `
+                    <div class="metric-header">
+                        <div class="metric-name">${metric.name}</div>
+                        <div class="metric-status status-${metric.status}">${metric.status.toUpperCase()}</div>
+                    </div>
+                    <div class="metric-value">${metric.value}</div>
+                    <div class="metric-description">${metric.description}</div>
+                    <div class="metric-bar">
+                        <div class="metric-bar-fill" style="width: ${metric.percentage}%"></div>
+                    </div>
+                `;
+                container.appendChild(div);
             });
+        }
+
+        // Populate coordination activities
+        function populateCoordinationActivities() {
+            const container = document.getElementById('coordinationActivities');
+            if (!container) return;
+
+            const activities = [
+                {
+                    time: new Date(),
+                    agents: 'MAIN → ENCRYPT → DEPLOY',
+                    message: 'Coordinated encryption deployment for 3 new devices discovered by NetworkMapper',
+                    result: 'TLS 1.3 + Kyber-1024 deployed successfully',
+                    type: 'encryption'
+                },
+                {
+                    time: new Date(Date.now() - 60000),
+                    agents: 'MAIN → THREAT → DEFENSE',
+                    message: 'SQL injection detected, coordinated response between ThreatScanner and DefenseOrchestrator',
+                    result: 'Attack blocked, honeypot triggered',
+                    type: 'security'
+                },
+                {
+                    time: new Date(Date.now() - 120000),
+                    agents: 'MAIN → CERT → COMPLIANCE',
+                    message: 'Certificate expiration alert triggered compliance gap remediation workflow',
+                    result: 'Auto-renewal initiated, compliance maintained',
+                    type: 'compliance'
+                },
+                {
+                    time: new Date(Date.now() - 180000),
+                    agents: 'MAIN → ANALYTICS → LOG',
+                    message: 'Anomaly pattern detected, coordinated logging and analysis across multiple agents',
+                    result: '99.8% confidence threat classification',
+                    type: 'security'
+                },
+                {
+                    time: new Date(Date.now() - 240000),
+                    agents: 'MAIN → NETWORK → ENCRYPT',
+                    message: 'Network scan revealed unencrypted services, coordinated automatic hardening',
+                    result: '5 services encrypted, gap resolved',
+                    type: 'encryption'
+                }
+            ];
+
+            container.innerHTML = '';
+            activities.forEach(activity => {
+                const div = document.createElement('div');
+                div.className = `coordination-activity ${activity.type}`;
+                div.innerHTML = `
+                    <div class="activity-time">${activity.time.toLocaleTimeString()}</div>
+                    <div class="activity-agents">${activity.agents}</div>
+                    <div class="activity-message">${activity.message}</div>
+                    <div class="activity-result">
+                        <div class="result-icon"></div>
+                        <span>${activity.result}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Add new coordination activity
+        function addCoordinationActivity(agents, message, result, type = 'encryption') {
+            const container = document.getElementById('coordinationActivities');
+            if (!container) return;
+
+            const div = document.createElement('div');
+            div.className = `coordination-activity ${type}`;
+            div.innerHTML = `
+                <div class="activity-time">${new Date().toLocaleTimeString()}</div>
+                <div class="activity-agents">${agents}</div>
+                <div class="activity-message">${message}</div>
+                <div class="activity-result">
+                    <div class="result-icon"></div>
+                    <span>${result}</span>
+                </div>
+            `;
             
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                // Update nodes
-                nodes.forEach(node => {
-                    node.x += node.vx;
-                    node.y += node.vy;
-                    node.activity = Math.sin(Date.now() * 0.001 + node.x * 0.01) * 0.5 + 0.5;
-                    
-                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
-                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
-                });
-                
-                // Draw connections
-                connections.forEach(conn => {
-                    const node1 = nodes[conn.from];
-                    const node2 = nodes[conn.to];
-                    if (!node1 || !node2) return;
-                    
-                    const opacity = conn.strength * 0.5;
-                    const pulse = Math.sin(Date.now() * 0.003) * 0.3 + 0.7;
-                    
-                    ctx.strokeStyle = `rgba(124, 58, 237, ${opacity * pulse})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(node1.x, node1.y);
-                    ctx.lineTo(node2.x, node2.y);
-                    ctx.stroke();
-                });
-                
-                // Draw nodes
-                nodes.forEach(node => {
-                    const intensity = node.activity;
-                    const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 2);
-                    gradient.addColorStop(0, `rgba(0, 255, 136, ${intensity * 0.8 + 0.2})`);
-                    gradient.addColorStop(1, 'rgba(0, 255, 136, 0)');
-                    
-                    ctx.fillStyle = gradient;
-                    ctx.beginPath();
-                    ctx.arc(node.x, node.y, node.radius * (intensity * 0.5 + 0.5), 0, Math.PI * 2);
-                    ctx.fill();
-                });
-                
-                requestAnimationFrame(animate);
+            container.insertBefore(div, container.firstChild);
+            
+            // Keep only last 15 activities
+            while (container.children.length > 15) {
+                container.removeChild(container.lastChild);
             }
-            
-            animate();
         }
 
         // View sub-agent details - enhanced for V3
@@ -1891,6 +2075,8 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             initNeuralVisualization();
+            populatePerformanceMetrics();
+            populateCoordinationActivities();
             
             // Initial actions
             addAutonomousAction('success', 'Main Agent V3 initialized all 9 sub-agents', [
@@ -1898,11 +2084,44 @@
                 { label: 'Status', value: 'All Online' }
             ]);
             
-            // Auto-generate actions
+            // Auto-generate actions and coordination activities
             setInterval(() => {
                 const action = autonomousActions[Math.floor(Math.random() * autonomousActions.length)];
                 addAutonomousAction(action.type, action.msg, action.details);
                 updateMetrics();
+                
+                // Generate new coordination activity
+                if (Math.random() > 0.7) {
+                    const coordActions = [
+                        {
+                            agents: 'MAIN → ENCRYPT → DEPLOY',
+                            message: 'Auto-deployed encryption to newly discovered IoT device',
+                            result: 'TLS 1.3 + Kyber-1024 active',
+                            type: 'encryption'
+                        },
+                        {
+                            agents: 'MAIN → COMPLIANCE → CERT',
+                            message: 'Triggered certificate renewal for compliance requirement',
+                            result: 'Certificate updated with hybrid signature',
+                            type: 'compliance'
+                        },
+                        {
+                            agents: 'MAIN → THREAT → ANALYTICS',
+                            message: 'Coordinated threat analysis with ML prediction engine',
+                            result: '99.8% confidence malware classification',
+                            type: 'security'
+                        },
+                        {
+                            agents: 'MAIN → NETWORK → DEFENSE',
+                            message: 'Synchronized honeypot deployment after network scan',
+                            result: 'SSH honeypot active on suspicious subnet',
+                            type: 'security'
+                        }
+                    ];
+                    
+                    const coordAction = coordActions[Math.floor(Math.random() * coordActions.length)];
+                    addCoordinationActivity(coordAction.agents, coordAction.message, coordAction.result, coordAction.type);
+                }
             }, 8000);
             
             // Update metrics
