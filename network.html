@@ -1328,6 +1328,115 @@
             color: var(--text-secondary);
         }
 
+        /* Real-time Feed Section - NEW */
+        .feed-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            height: 450px;
+            display: none;
+            flex-direction: column;
+            backdrop-filter: blur(15px);
+            margin-bottom: 30px;
+        }
+
+        .feed-section.active {
+            display: flex;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .feed-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--secondary);
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--secondary);
+            border-radius: 50%;
+            animation: livePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .feed-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .feed-item {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 3px solid var(--secondary);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+            animation: feedSlide 0.3s ease;
+        }
+
+        @keyframes feedSlide {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .feed-item.ai-action {
+            border-left-color: var(--accent);
+        }
+
+        .feed-item.encryption {
+            border-left-color: var(--primary);
+        }
+
+        .feed-item.discovery {
+            border-left-color: var(--secondary);
+        }
+
+        .feed-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feed-message {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .feed-agent {
+            font-size: 12px;
+            color: var(--accent);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
         /* Modal Styles */
         .modal-overlay {
             position: fixed;
@@ -1792,6 +1901,25 @@
                 text-align: center;
             }
         }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -2092,6 +2220,20 @@
            </div>
        </div>
 
+       <!-- Sub-Agent Activity Feed - ONLY SHOWS AFTER SCALE SELECTION -->
+       <div class="feed-section" id="networkFeed" style="display: none;">
+           <div class="feed-header">
+               <h2 class="feed-title">Sub-Agent Activity Feed</h2>
+               <div class="live-indicator">
+                   <div class="live-dot"></div>
+                   <span>LIVE</span>
+               </div>
+           </div>
+           <div class="feed-content" id="networkFeedContent">
+               <!-- Feed items will be populated here -->
+           </div>
+       </div>
+
    </div>
 
    <!-- Add Range Modal -->
@@ -2195,7 +2337,7 @@
                <button class="ai-chat-send" id="aiChatSend" onclick="sendChatMessage()">SEND</button>
            </div>
        </div>
-       <button class="ai-chat-toggle" onclick="toggleChat()">🌐</button>
+       <button class="ai-chat-toggle" onclick="toggleChat()">🤖</button>
    </div>
 
    <script src="shared.js"></script>
@@ -2204,6 +2346,51 @@
         // V3 Enhancement: Encryption Gap Detection
         let encryptionGapDetected = false;
         let gapDeviceCount = 0;
+        let feedInterval = null;
+
+        // Network feed messages for V3
+        const networkFeedMessages = {
+            individual: [
+                { msg: '🌐 NetworkMapper: Scanning single server environment', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🔍 External IP scan initiated for server perimeter', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '✅ Server hardening check: SSH secured on port 22', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🔐 EncryptionDeployer: TLS 1.3 active on web services', agent: 'EncryptionDeployer', type: 'encryption' },
+                { msg: '📊 Single server baseline established', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '⚡ Firewall rules optimized for minimal exposure', agent: 'DefenseOrchestrator', type: 'ai-action' },
+                { msg: '🛡️ Essential monitoring active: CPU, RAM, Network', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '📝 LogAgent: Server logs encrypted with Dilithium-3', agent: 'LogAgent', type: 'ai-action' }
+            ],
+            business: [
+                { msg: '🏢 NetworkMapper: Discovering multi-site topology', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🌍 Cross-location correlation engine activated', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🔍 Site A: 47 devices discovered, 3 subnets mapped', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🔍 Site B: 31 devices discovered, 2 subnets mapped', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🔐 EncryptionDeployer: Inter-site VPN secured with Kyber-1024', agent: 'EncryptionDeployer', type: 'encryption' },
+                { msg: '✅ ComplianceMonitor: Business continuity verified', agent: 'ComplianceMonitor', type: 'ai-action' },
+                { msg: '📊 Advanced threat correlation active across sites', agent: 'AnalyticsEngine', type: 'ai-action' },
+                { msg: '🛡️ Unified security policy deployed to all locations', agent: 'DefenseOrchestrator', type: 'ai-action' }
+            ],
+            enterprise: [
+                { msg: '🏭 NetworkMapper: Enterprise infrastructure scan initiated', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🌐 Data Center 1: 1,247 servers discovered', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🌐 Data Center 2: 892 servers discovered', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🔍 Global network topology: 15 locations, 47 subnets', agent: 'NetworkMapper', type: 'discovery' },
+                { msg: '🔐 Enterprise PKI deployed with hybrid certificates', agent: 'CertificateManager', type: 'encryption' },
+                { msg: '📊 Cross-DC threat correlation matrix established', agent: 'AnalyticsEngine', type: 'ai-action' },
+                { msg: '✅ SOC integration verified, APIs operational', agent: 'ComplianceMonitor', type: 'ai-action' },
+                { msg: '🛡️ Global defense orchestration active', agent: 'DefenseOrchestrator', type: 'ai-action' }
+            ]
+        };
+
+        // Common feed messages that apply to all scales
+        const commonFeedMessages = [
+            { msg: '🔐 Encryption gap detected: 3 devices need protection', agent: 'NetworkMapper', type: 'discovery' },
+            { msg: '🔧 EncryptionDeployer: Remediating encryption gaps', agent: 'EncryptionDeployer', type: 'encryption' },
+            { msg: '✅ All devices now protected with hybrid encryption', agent: 'EncryptionDeployer', type: 'encryption' },
+            { msg: '📜 CertificateManager: All certificates valid', agent: 'CertificateManager', type: 'encryption' },
+            { msg: '🛡️ Real-time threat monitoring active', agent: 'ThreatScanner', type: 'ai-action' },
+            { msg: '📝 Audit trail secured with Dilithium-3 signatures', agent: 'LogAgent', type: 'ai-action' }
+        ];
 
         // Override the initialization to include V3 features
         document.addEventListener('DOMContentLoaded', () => {
@@ -2313,6 +2500,83 @@
             }, 300);
         }
 
+        // Network feed functions
+        function initializeNetworkFeed() {
+            const feed = document.getElementById('networkFeed');
+            const feedContent = document.getElementById('networkFeedContent');
+            
+            if (feed && feedContent && window.currentScale) {
+                // Show the feed
+                feed.style.display = 'flex';
+                feed.classList.add('active');
+                
+                // Clear existing content
+                feedContent.innerHTML = '';
+                
+                // Add initial messages based on scale
+                const scaleMessages = networkFeedMessages[window.currentScale] || [];
+                
+                addNetworkFeedItem('🤖 NetworkMapper V3: Enhanced with encryption gap detection', 'Main Agent', 'ai-action');
+                addNetworkFeedItem('🔐 All network data encrypted with hybrid-resistant algorithms', 'EncryptionManager', 'encryption');
+                
+                // Add scale-specific initial message
+                if (window.currentScale === 'individual') {
+                    addNetworkFeedItem('🌐 Starting single server protection scan', 'NetworkMapper', 'discovery');
+                } else if (window.currentScale === 'business') {
+                    addNetworkFeedItem('🏢 Initiating multi-site security configuration', 'NetworkMapper', 'discovery');
+                } else if (window.currentScale === 'enterprise') {
+                    addNetworkFeedItem('🏭 Beginning enterprise infrastructure defense setup', 'NetworkMapper', 'discovery');
+                }
+                
+                // Start auto-generating feed items
+                if (feedInterval) clearInterval(feedInterval);
+                
+                let messageIndex = 0;
+                feedInterval = setInterval(() => {
+                    // Alternate between scale-specific and common messages
+                    if (Math.random() > 0.7) {
+                        // Use common message
+                        const item = commonFeedMessages[Math.floor(Math.random() * commonFeedMessages.length)];
+                        addNetworkFeedItem(item.msg, item.agent, item.type);
+                    } else {
+                        // Use scale-specific message
+                        const item = scaleMessages[messageIndex % scaleMessages.length];
+                        let message = item.msg;
+                        
+                        // Add random IP for discovery messages
+                        if (message.includes('192.168.1.')) {
+                            message += Math.floor(Math.random() * 254 + 1);
+                        }
+                        
+                        addNetworkFeedItem(message, item.agent, item.type);
+                        messageIndex++;
+                    }
+                }, 4000);
+            }
+        }
+
+        function addNetworkFeedItem(message, agent, type = 'discovery') {
+            const feedContent = document.getElementById('networkFeedContent');
+            if (!feedContent) return;
+            
+            const item = document.createElement('div');
+            item.className = `feed-item ${type}`;
+            
+            const time = new Date().toLocaleTimeString();
+            item.innerHTML = `
+                <div class="feed-time">${time}</div>
+                <div class="feed-message">${message}</div>
+                <div class="feed-agent">via ${agent}</div>
+            `;
+            
+            feedContent.insertBefore(item, feedContent.firstChild);
+            
+            // Keep only last 20 items
+            while (feedContent.children.length > 20) {
+                feedContent.removeChild(feedContent.lastChild);
+            }
+        }
+
         // Enhanced chat initialization message for V3
         function initializeNetworkChat() {
             if (window.sentinelChat && SentinelState.chatOpen) {
@@ -2320,12 +2584,17 @@
             }
         }
 
-        // Override selectScale to include V3 enhancements
+        // Override selectScale to include V3 enhancements and show feed
         const originalSelectScale = window.selectScale;
         if (originalSelectScale) {
             window.selectScale = function(scale, userSelected = true) {
                 // Call original function
                 originalSelectScale(scale, userSelected);
+                
+                // Show the network feed when scale is selected
+                setTimeout(() => {
+                    initializeNetworkFeed();
+                }, 500);
                 
                 // Add V3 specific initialization
                 setTimeout(() => {
@@ -2348,6 +2617,10 @@
                 // Call original function
                 originalStartAutoScan();
                 
+                // Show the network feed when auto-scan completes and shows inner page
+                // This will be triggered when the auto-scan selects a scale
+                // The feed will appear through the selectScale override
+                
                 // Add encryption gap detection to auto-scan process
                 setTimeout(() => {
                     if (window.sentinelChat && SentinelState.chatOpen) {
@@ -2356,6 +2629,13 @@
                 }, 3000);
             };
         }
+
+        // Clean up feed interval when leaving page
+        window.addEventListener('beforeunload', () => {
+            if (feedInterval) {
+                clearInterval(feedInterval);
+            }
+        });
 
         // Global function for encryption gap remediation
         window.remediateEncryptionGaps = remediateEncryptionGaps;
